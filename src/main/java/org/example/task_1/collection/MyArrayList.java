@@ -56,7 +56,7 @@ public class MyArrayList<E> implements CustomList<E> {
     public boolean add(int index, E e) {
         if (index < 0 || index > (this.size + 1)) throw new IllegalArgumentException();
         checkCapacity(this.size + 1);
-        System.arraycopy(this.elements, index, e, index + 1, size - index);
+        System.arraycopy(this.elements, index, elements, index + 1, size - index);
         elements[index] = e;
         this.size++;
         return true;
@@ -83,6 +83,7 @@ public class MyArrayList<E> implements CustomList<E> {
     /** @return an element from the list according to the index value */
     @Override
     public E get(int index) {
+        if (index < 0 || index > (this.size + 1)) throw new IllegalArgumentException();
         return this.elements[index];
     }
 
@@ -125,6 +126,26 @@ public class MyArrayList<E> implements CustomList<E> {
     @Override
     public Iterator<E> iterator() {
         return new CustomIterator<>();
+    }
+
+    /** Returns a string of sheet elements */
+    @Override
+    public String toString() {
+        if (size == 0)
+            return "null";
+
+        int iMax = this.size - 1;
+        if (iMax == 0)
+            return "[]";
+
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        for (int i = 0; ; i++) {
+            b.append(elements[i]);
+            if (i == iMax)
+                return b.append(']').toString();
+            b.append(", ");
+        }
     }
 
     /** This class implements the iterator interface for sequential traversal of all elements of the collection */
